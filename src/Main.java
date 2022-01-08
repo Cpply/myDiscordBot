@@ -2,7 +2,9 @@ package com.xppty.testbotproject;
 
 import org.javacord.api.DiscordApi;
 import org.javacord.api.DiscordApiBuilder;
+import org.javacord.api.entity.message.Messageable;
 import org.javacord.api.entity.message.embed.EmbedBuilder;
+import org.javacord.api.entity.user.User;
 
 import java.awt.*;
 
@@ -17,10 +19,12 @@ public class Main {
         api.addMessageCreateListener(event -> {
             if (event.getMessageContent().equalsIgnoreCase("!invite")) {
                 EmbedBuilder embed1 = new EmbedBuilder()
-                        .setDescription("Beni sunucuna çağır!\n" + "İşte link : " + api.createBotInvite())
+                        .setDescription("My invite your server!!\n" + "This link : " + api.createBotInvite())
                         .setColor(Color.BLUE);
 
-                event.getChannel().sendMessage(embed1);
+                User user = event.getMessageAuthor().asUser().get();
+                user.sendMessage(embed1);
+                event.getChannel().sendMessage("Davet linki özel mesaj kutunuza gönderilmiştir.");
                 event.addReactionToMessage("👍");
             }
         });
@@ -30,6 +34,10 @@ public class Main {
             if (event.getMessageContent().equalsIgnoreCase("Selam")) {
                 event.getChannel().sendMessage("Selam, hoşgeldin!");
             }
+        });
+
+        api.addMessageCreateListener(event -> {
+             if (event.getMessageContent().equalsIgnoreCase("")) {}
         });
 
         System.out.println("Bot aktifleştirildi!");
